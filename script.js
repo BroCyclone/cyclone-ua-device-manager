@@ -1,6 +1,8 @@
 const $=s=>document.querySelector(s);
 const STORAGE_KEY="cyclone_custom_uas_v1";
+const THEME_KEY="cyclone_theme_v1";
 let editIndex=null;
+let currentTheme="blue";
 
 const pools={
  Android:{
@@ -125,6 +127,34 @@ const pools={
  }
 };
 
+function toggleTheme(){
+ currentTheme=currentTheme==="blue"?"red":"blue";
+ const body=document.body;const toggle=$("#themeToggle");const label=$("#themeLabel");
+ if(currentTheme==="red"){
+  body.classList.add("theme-red");
+  toggle.classList.add("red");
+  label.textContent="Red";
+  localStorage.setItem(THEME_KEY,"red");
+  toast("Red theme activated");
+ }else{
+  body.classList.remove("theme-red");
+  toggle.classList.remove("red");
+  label.textContent="Blue";
+  localStorage.setItem(THEME_KEY,"blue");
+  toast("Blue theme activated");
+ }
+}
+
+function loadTheme(){
+ const saved=localStorage.getItem(THEME_KEY)||"blue";
+ currentTheme=saved;
+ if(saved==="red"){
+  document.body.classList.add("theme-red");
+  $("#themeToggle").classList.add("red");
+  $("#themeLabel").textContent="Red";
+ }
+}
+
 function toast(msg){const t=$("#toast");t.textContent=msg;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),1600)}
 function copyText(v){navigator.clipboard?.writeText(v).then(()=>toast("Copied")).catch(()=>toast("Copy unavailable"))}
 function download(name,type,data){const blob=new Blob([data],{type});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),500)}
@@ -157,9 +187,11 @@ async function detectIP(){
  catch{$("#ipAddress").textContent="Unavailable (offline/browser policy)"}
 }
 function init(){
+ loadTheme();
  const ua=navigator.userAgent;$("#currentUA").value=ua;$("#platform").textContent=navigator.platform||"Unknown";$("#language").textContent=navigator.language||"Unknown";$("#port").textContent=location.port||((location.protocol==="https:")?"443":"80");
  detectIP();renderCustom();
 }
+$("#themeToggle").onclick=toggleTheme;
 $("#copyCurrent").onclick=()=>copyText($("#currentUA").value);
 $("#copyGenerated").onclick=()=>copyText($("#generatedUA").value);
 $("#generateBtn").onclick=generate;
