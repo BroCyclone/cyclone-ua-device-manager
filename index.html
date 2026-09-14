@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#080b12">
+  <title>Cyclone UA & Device Manager</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="topbar">
+  <div>
+    <div class="brand">CYCLONE</div>
+    <div class="subtitle">UA & Device Manager</div>
+  </div>
+  <div class="credit">Developed By <b>BroCyclone</b></div>
+</header>
+
+<main class="container">
+  <section class="hero">
+    <h1>UA & Device Console</h1>
+    <p>Current browser identity, network details, realistic UA generation, and custom UA management.</p>
+  </section>
+
+  <section class="grid">
+    <article class="card current">
+      <div class="card-head"><h2>Current UA</h2><button id="copyCurrent" class="btn">Copy</button></div>
+      <textarea id="currentUA" readonly></textarea>
+      <div class="meta-grid">
+        <div><span>IP Address</span><strong id="ipAddress">Detecting…</strong></div>
+        <div><span>Port</span><strong id="port">—</strong></div>
+        <div><span>Platform</span><strong id="platform">—</strong></div>
+        <div><span>Language</span><strong id="language">—</strong></div>
+      </div>
+      <div class="actions">
+        <button id="exportCurrentTxt" class="btn primary">Export TXT</button>
+        <button id="exportCurrentJson" class="btn">Export JSON</button>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="card-head"><h2>UA Generator</h2></div>
+      <div class="selector-row">
+        <label>Device family
+          <select id="deviceFamily">
+            <option>Android</option>
+            <option>iOS</option>
+            <option>Desktop</option>
+            <option>iPad</option>
+            <option>Tablet</option>
+          </select>
+        </label>
+        <label>Browser
+          <select id="browser">
+            <option>Chrome</option>
+            <option>Firefox</option>
+            <option>Safari</option>
+            <option>Edge</option>
+          </select>
+        </label>
+      </div>
+      <button id="generateBtn" class="btn primary full">Generate Realistic UA</button>
+      <textarea id="generatedUA" placeholder="Generated UA will appear here…"></textarea>
+      <div class="actions">
+        <button id="copyGenerated" class="btn">Copy</button>
+        <button id="exportGeneratedTxt" class="btn">TXT</button>
+        <button id="exportGeneratedJson" class="btn">JSON</button>
+      </div>
+      <p class="note">Generated UAs use internally defined, plausible device/browser combinations. Custom UAs are kept separate and are never included in generation.</p>
+    </article>
+  </section>
+
+  <section class="card custom-card">
+    <div class="card-head">
+      <div>
+        <h2>Custom UA Vault</h2>
+        <p class="muted">Custom entries are stored separately from the generator pool.</p>
+      </div>
+      <button id="addCustom" class="btn primary">+ Add Custom UA</button>
+    </div>
+    <div id="customList" class="custom-list"></div>
+    <div id="emptyCustom" class="empty">No custom UAs added.</div>
+  </section>
+</main>
+
+<div id="modal" class="modal hidden">
+  <div class="modal-box">
+    <div class="card-head"><h2 id="modalTitle">Add Custom UA</h2><button id="closeModal" class="icon">×</button></div>
+    <label>Name<input id="customName" maxlength="80" placeholder="e.g. My Android UA"></label>
+    <label>User-Agent<textarea id="customValue" placeholder="Paste User-Agent here"></textarea></label>
+    <div class="actions right">
+      <button id="cancelModal" class="btn">Cancel</button>
+      <button id="saveCustom" class="btn primary">Save</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
+<script src="script.js"></script>
+</body>
+</html>
